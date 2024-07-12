@@ -1,42 +1,3 @@
-// async function getFilearr() {
-//   //let directory;
-//   let Coords = [];
-//   try {
-//     directory = await window.showDirectoryPicker({
-//       startIn: 'desktop'
-//     });
-
-//     for await (const entry of directory.values()) {
-//       if (entry.name.startsWith("map_")) {
-//         currentCoord = getCoordFromMapName(entry.name);
-//         if (isNumeric(currentCoord.x)) {
-//           Coords.push(currentCoord)
-//         }
-//       }
-//     }
-//     return Coords;
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
-
-// async function reloadFileArr() {
-//   let Coords = [];
-//   try {
-//     for await (const entry of directory.values()) {
-//       if (entry.name.startsWith("map_")) {
-//         currentCoord = getCoordFromMapName(entry.name);
-//         if (isNumeric(currentCoord.x)) {
-//           Coords.push(currentCoord)
-//         }
-//       }
-//     }
-//     return Coords;
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
-
 let CurrentRegionFile = "";
 
 async function getRegionFile() {
@@ -65,8 +26,6 @@ async function getRegionFile() {
     anno.clearAnnotations();
     for (let an of annoData.regions)
     {
-      //console.log("region[" + index++ + "]: x=" + an.x +  " y=" + an.y + " w=" + an.w + " h=" + an.h);
-
       //{
       //  "type":"Annotation",
       //  "body":[],
@@ -131,22 +90,15 @@ async function putRegionFile() {
     let separator = "\n";
 
     const annolist = anno.getAnnotations();
-    
-    //console.log(JSON.stringify(annolist[0]));
 
     for (let an of annolist) {
-      // selector = an.target.selector.value;
-      // rectinfo = annoCoordToPZCoord(an.target.selector.value);
-      // console.log(rectinfo.sx, rectinfo.sy, rectinfo.ex, rectinfo.ey);
-      // await writable.write(separator + "{ \"sx\":" +  rectinfo.sx + ", \"sy\":" +  rectinfo.sy + ", \"ex\":" +  rectinfo.ex + ", \"ey\":" +  rectinfo.ey + "}");
-      const arr = an.target.selector.value.replace("xywh=pixel:", "").split(",");
+      const arr = an.target.selector.value.replace("xywh=", "").replace("pixel:", "").split(",");
       await writable.write(separator + "{ \"x\":" +  arr[0] + ", \"y\":" +  arr[1] + ", \"w\":" +  arr[2] + ", \"h\":" +  arr[3] + "}");
       separator = ",\n";
     }
     
     await writable.write("\n]}");
     await writable.close();
-    //console.log("writable closed");
     return;
   } catch (e) {
     console.log(e);
