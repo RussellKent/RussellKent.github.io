@@ -57,15 +57,15 @@ document.getElementById('generate').addEventListener('click', async () => {
 
           if (deleteMapData == true) {
             let filename = CoordinateToFileName(i, j, "M");
-            await writable.write("rm -f " + filename + "\n");
+            await writable.write("rm " + filename + "\n");
           }
           if (deleteChunkData == true) {
             let filename = CoordinateToFileName(i, j, "C");
-            await writable.write("rm -f " + filename + "\n");
+            await writable.write("rm " + filename + "\n");
           }
           if (deleteZPopData == true) {
             let filename = CoordinateToFileName(i, j, "Z");
-            await writable.write("rm -f " + filename + "\n");
+            await writable.write("rm " + filename + "\n");
           }
 
         }
